@@ -1,0 +1,343 @@
+/* Bella Massa - página de login
+   Este arquivo é separado do style.css para não alterar o restante do site. */
+
+.login-page {
+  min-height: 100vh;
+  padding: 28px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(181, 18, 27, .08), transparent 28%),
+    radial-gradient(circle at 88% 85%, rgba(181, 18, 27, .07), transparent 30%),
+    var(--cream, #fffaf5);
+  color: var(--black, #111);
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.login-page * {
+  box-sizing: border-box;
+}
+
+.back-link {
+  width: min(100%, 470px);
+  margin: 0 0 16px;
+  color: var(--red, #b5121b);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color .2s ease;
+}
+
+.back-link:hover {
+  color: var(--red-dark, #790000);
+}
+
+.back-link span {
+  margin-right: 5px;
+  font-size: 19px;
+  vertical-align: -1px;
+}
+
+.auth-card {
+  width: min(100%, 470px);
+  padding: 34px 38px 28px;
+  background: var(--white, #fff);
+  border: 1px solid rgba(17, 17, 17, .07);
+  border-radius: 18px;
+  box-shadow: 0 18px 55px rgba(55, 20, 15, .10);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 30px;
+  color: var(--red, #b5121b);
+  text-decoration: none;
+  font-size: 29px;
+  font-weight: 700;
+  letter-spacing: -.8px;
+}
+
+.brand strong {
+  color: var(--black, #111);
+}
+
+.brand-mark {
+  font-size: 27px;
+}
+
+.auth-heading {
+  text-align: center;
+  margin-bottom: 23px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--red, #b5121b);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.auth-heading h1 {
+  margin: 0 0 9px;
+  color: var(--black, #111);
+  font-size: 29px;
+  line-height: 1.2;
+}
+
+.auth-heading .intro {
+  margin: 0 auto;
+  max-width: 330px;
+  color: var(--gray, #666);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  margin-bottom: 21px;
+  background: var(--light-gray, #f3f3f3);
+  border-radius: 10px;
+}
+
+.auth-tab {
+  min-height: 42px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--gray, #666);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.auth-tab.active {
+  background: var(--white, #fff);
+  color: var(--red, #b5121b);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-form[hidden] {
+  display: none;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field label {
+  color: var(--black, #111);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  min-height: 47px;
+  padding: 0 13px;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  color: var(--black, #111);
+  font: inherit;
+  font-size: 14px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.field input::placeholder {
+  color: #a0a0a0;
+}
+
+.field input:focus {
+  border-color: var(--red, #b5121b);
+  box-shadow: 0 0 0 3px rgba(181, 18, 27, .10);
+}
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 75px;
+}
+
+.show-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: var(--red, #b5121b);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.field-hint {
+  color: var(--gray, #666);
+  font-size: 11px;
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: -3px;
+}
+
+.remember-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--gray, #666);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.remember-option input {
+  accent-color: var(--red, #b5121b);
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--red, #b5121b);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: var(--red-dark, #790000);
+  text-decoration: underline;
+}
+
+.submit-button {
+  width: 100%;
+  min-height: 49px;
+  margin-top: 2px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--red, #b5121b);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.submit-button:hover {
+  background: var(--red-dark, #790000);
+  box-shadow: 0 6px 15px rgba(181, 18, 27, .18);
+  transform: translateY(-1px);
+}
+
+.switch-copy {
+  margin: 1px 0 0;
+  color: var(--gray, #666);
+  text-align: center;
+  font-size: 12px;
+}
+
+.switch-copy .text-button {
+  margin-left: 3px;
+}
+
+.form-message {
+  display: none;
+  margin: 0 0 15px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-message.visible {
+  display: block;
+}
+
+.form-message.info {
+  background: #fff5e8;
+  color: #80500c;
+  border: 1px solid #f2dfc2;
+}
+
+.form-message.error {
+  background: #fff0f0;
+  color: #a20d16;
+  border: 1px solid #f1cccc;
+}
+
+.security-note {
+  margin: 23px 0 0;
+  padding-top: 17px;
+  border-top: 1px solid #eeeeee;
+  color: #888;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.page-footer {
+  margin: 18px 0 0;
+  color: #888;
+  text-align: center;
+  font-size: 11px;
+}
+
+@media (max-width: 520px) {
+  .login-page {
+    justify-content: flex-start;
+    padding: 22px 14px;
+  }
+
+  .auth-card {
+    padding: 28px 21px 23px;
+    border-radius: 14px;
+  }
+
+  .brand {
+    margin-bottom: 25px;
+    font-size: 26px;
+  }
+
+  .auth-heading h1 {
+    font-size: 26px;
+  }
+
+  .form-options {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .form-options {
+    flex-direction: column;
+  }
+}

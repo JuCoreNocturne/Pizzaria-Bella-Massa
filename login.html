@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesse sua conta ou cadastre-se na Bella Massa.">
+  <title>Entrar | Bella Massa</title>
+
+  <!-- Mantém a identidade visual do site principal -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Estilos exclusivos desta página -->
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <main class="login-page">
+    <a class="back-link" href="cardapio.html" aria-label="Voltar ao cardápio">
+      <span aria-hidden="true">←</span> Voltar ao cardápio
+    </a>
+
+    <section class="auth-card" aria-labelledby="page-title">
+      <a class="brand" href="cardapio.html" aria-label="Bella Massa - página inicial">
+        <span class="brand-mark" aria-hidden="true">🍕</span>
+        <span>Bella <strong>Massa</strong></span>
+      </a>
+
+      <div class="auth-heading">
+        <p class="eyebrow">SEJA BEM-VINDO(A)</p>
+        <h1 id="page-title">Acesse sua conta</h1>
+        <p class="intro">Entre para acompanhar seus pedidos e aproveitar a Bella Massa.</p>
+      </div>
+
+      <div class="auth-tabs" role="tablist" aria-label="Acesso à conta">
+        <button class="auth-tab active" id="login-tab" type="button" role="tab"
+          aria-selected="true" aria-controls="login-panel">Entrar</button>
+        <button class="auth-tab" id="register-tab" type="button" role="tab"
+          aria-selected="false" aria-controls="register-panel">Criar conta</button>
+      </div>
+
+      <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+
+      <form id="login-panel" class="auth-form" novalidate>
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <input id="login-email" name="email" type="email" placeholder="seuemail@exemplo.com"
+            autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="login-password">Senha</label>
+          <div class="password-wrap">
+            <input id="login-password" name="password" type="password" placeholder="Digite sua senha"
+              autocomplete="current-password" required>
+            <button class="show-password" type="button" data-toggle-password="login-password"
+              aria-label="Mostrar senha">Mostrar</button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember-option">
+            <input type="checkbox" name="remember">
+            <span>Manter conectado</span>
+          </label>
+          <button class="text-button" id="forgot-password" type="button">Esqueci minha senha</button>
+        </div>
+
+        <button class="submit-button" type="submit">Entrar na minha conta</button>
+        <p class="switch-copy">Ainda não tem uma conta?
+          <button class="text-button" type="button" data-open-register>Criar cadastro</button>
+        </p>
+      </form>
+
+      <form id="register-panel" class="auth-form" hidden novalidate>
+        <div class="field">
+          <label for="register-name">Nome completo</label>
+          <input id="register-name" name="name" type="text" placeholder="Digite seu nome completo"
+            autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="register-email">E-mail</label>
+          <input id="register-email" name="email" type="email" placeholder="seuemail@exemplo.com"
+            autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="register-phone">Telefone / WhatsApp</label>
+          <input id="register-phone" name="phone" type="tel" placeholder="(11) 99999-9999"
+            autocomplete="tel" inputmode="tel" required>
+        </div>
+
+        <div class="field">
+          <label for="register-password">Crie uma senha</label>
+          <div class="password-wrap">
+            <input id="register-password" name="password" type="password"
+              placeholder="Mínimo de 8 caracteres" autocomplete="new-password"
+              minlength="8" required>
+            <button class="show-password" type="button" data-toggle-password="register-password"
+              aria-label="Mostrar senha">Mostrar</button>
+          </div>
+          <small class="field-hint">Use pelo menos 8 caracteres.</small>
+        </div>
+
+        <div class="field">
+          <label for="register-confirm">Confirme sua senha</label>
+          <div class="password-wrap">
+            <input id="register-confirm" name="confirm" type="password"
+              placeholder="Digite a senha novamente" autocomplete="new-password" required>
+            <button class="show-password" type="button" data-toggle-password="register-confirm"
+              aria-label="Mostrar senha">Mostrar</button>
+          </div>
+        </div>
+
+        <button class="submit-button" type="submit">Criar minha conta</button>
+        <p class="switch-copy">Já tem uma conta?
+          <button class="text-button" type="button" data-open-login>Entrar</button>
+        </p>
+      </form>
+
+      <p class="security-note">
+        Seus dados devem ser protegidos. A autenticação real será conectada ao sistema do site.
+      </p>
+    </section>
+
+    <p class="page-footer">© <span id="current-year"></span> Bella Massa. Todos os direitos reservados.</p>
+  </main>
+
+  <script>
+    const loginTab = document.querySelector("#login-tab");
+    const registerTab = document.querySelector("#register-tab");
+    const loginForm = document.querySelector("#login-panel");
+    const registerForm = document.querySelector("#register-panel");
+    const message = document.querySelector("#form-message");
+
+    function showMessage(text, type = "info") {
+      message.textContent = text;
+      message.className = `form-message visible ${type}`;
+    }
+
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "form-message";
+    }
+
+    function switchPanel(panel) {
+      const registering = panel === "register";
+      loginForm.hidden = registering;
+      registerForm.hidden = !registering;
+      loginTab.classList.toggle("active", !registering);
+      registerTab.classList.toggle("active", registering);
+      loginTab.setAttribute("aria-selected", String(!registering));
+      registerTab.setAttribute("aria-selected", String(registering));
+      document.querySelector("#page-title").textContent =
+        registering ? "Crie sua conta" : "Acesse sua conta";
+      document.querySelector(".intro").textContent = registering
+        ? "Cadastre-se para fazer seus pedidos com mais praticidade."
+        : "Entre para acompanhar seus pedidos e aproveitar a Bella Massa.";
+      clearMessage();
+    }
+
+    loginTab.addEventListener("click", () => switchPanel("login"));
+    registerTab.addEventListener("click", () => switchPanel("register"));
+    document.querySelectorAll("[data-open-register]").forEach(button =>
+      button.addEventListener("click", () => switchPanel("register")));
+    document.querySelectorAll("[data-open-login]").forEach(button =>
+      button.addEventListener("click", () => switchPanel("login")));
+
+    document.querySelectorAll("[data-toggle-password]").forEach(button => {
+      button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.togglePassword);
+        const showing = input.type === "text";
+        input.type = showing ? "password" : "text";
+        button.textContent = showing ? "Mostrar" : "Ocultar";
+        button.setAttribute("aria-label", showing ? "Mostrar senha" : "Ocultar senha");
+      });
+    });
+
+    document.querySelector("#forgot-password").addEventListener("click", () => {
+      const email = document.querySelector("#login-email").value.trim();
+      if (!email) {
+        showMessage("Digite seu e-mail acima para solicitar a recuperação da senha.", "error");
+        document.querySelector("#login-email").focus();
+        return;
+      }
+      showMessage("A tela está pronta, mas o envio do link de recuperação depende da integração com um serviço de autenticação.", "info");
+    });
+
+    loginForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (!loginForm.reportValidity()) return;
+      showMessage("Layout funcionando! Para validar o e-mail e a senha e entrar de verdade, precisamos conectar um backend ou serviço de autenticação.", "info");
+    });
+
+    registerForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (!registerForm.reportValidity()) return;
+
+      const password = document.querySelector("#register-password").value;
+      const confirmation = document.querySelector("#register-confirm").value;
+
+      if (password !== confirmation) {
+        showMessage("As senhas não coincidem. Confira e tente novamente.", "error");
+        document.querySelector("#register-confirm").focus();
+        return;
+      }
+
+      showMessage("Cadastro visual validado! Para salvar a conta com segurança e permitir o login depois, precisamos conectar um backend ou serviço de autenticação.", "info");
+    });
+
+    // Máscara simples para telefone brasileiro
+    document.querySelector("#register-phone").addEventListener("input", event => {
+      let digits = event.target.value.replace(/\D/g, "").slice(0, 11);
+      if (digits.length > 10) {
+        digits = digits.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
+      } else if (digits.length > 6) {
+        digits = digits.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+      } else if (digits.length > 2) {
+        digits = digits.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+      } else if (digits.length > 0) {
+        digits = digits.replace(/^(\d*)/, "($1");
+      }
+      event.target.value = digits;
+    });
+
+    document.querySelector("#current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

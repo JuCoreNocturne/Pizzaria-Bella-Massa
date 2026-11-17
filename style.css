@@ -612,6 +612,13 @@ input {
 }
 
 
+.search-empty-state {
+    margin: 0;
+    color: var(--gray);
+    text-align: center;
+}
+
+
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -2399,5 +2406,4 @@ footer .container {
         padding: 45px 0 25px;
     }
 }
-
 

@@ -29,11 +29,11 @@
 
                  <!-- CARRINHO -->
                 <li>
-                    <a href="#carrinho" class="cart-icon" aria-label="Carrinho de compras">
+                    <a href="carrinho.html" class="cart-icon" aria-label="Carrinho de compras">
                         <i class="bi bi-cart2"></i>
                     </a>
                 </li>
-                <li><a class="btn btn-light" href="#">Login</a></li>
+                <li><a class="btn btn-light" href="login.html">Login</a></li>
             </ul>
 
 
@@ -71,8 +71,14 @@
 
                 <div class="search-box">
                     <i class="bi bi-search"></i>
-                    <input type="search" placeholder="Buscar no cardápio">
+                    <input 
+                    type="search" 
+                    id="menu-search" 
+                    placeholder="Buscar no cardápio" 
+                    aria-label="Buscar produtos no cardápio"
+                    >
                 </div>
+                <p id="mensagem-busca" aria-live="polite"></p>
             </div>
 
 
@@ -342,6 +348,9 @@
             </section>
 
 
+            <p class="search-empty-state" id="search-empty-state" role="status" aria-live="polite" hidden>Nenhum produto encontrado.</p>
+
+
         </div>
     </section>
 
@@ -414,6 +423,187 @@
     </div>
 </footer>
 
+<script>
+    const searchInput = document.querySelector("#menu-search");
+    const productCards = [...document.querySelectorAll(".product-card")];
+    const categories = [...document.querySelectorAll(".menu-category")];
+    const emptyState = document.querySelector("#search-empty-state");
 
+    function normalizeText(text) {
+        return text
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLocaleLowerCase("pt-BR");
+    }
+
+    searchInput.addEventListener("input", () => {
+        const query = normalizeText(searchInput.value.trim());
+        let visibleProducts = 0;
+
+        productCards.forEach((card) => {
+            const matches = normalizeText(card.textContent).includes(query);
+            card.hidden = !matches;
+
+            if (matches) {
+                visibleProducts += 1;
+            }
+        });
+
+        categories.forEach((category) => {
+            category.hidden = !category.querySelector(".product-card:not([hidden])");
+        });
+
+        emptyState.hidden = visibleProducts > 0;
+    });
+</script>
+<script src="buscar.js">
+    // O código do script buscar.js será carregado aqui
+    // 1. Encontrar o campo de busca e a mensagem
+    const campoBusca = document.getElementById("menu-search");
+    const mensagemBusca = document.getElementById("mensagem-busca");
+
+    // 2. Detectar quando o usuário digitar
+    campoBusca.addEventListener("input", function () {
+        const termo = campoBusca.value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+
+        // 3. Encontrar os produtos do cardápio
+        const produtos = document.querySelectorAll(".product-card");
+
+        let encontrados = 0;
+
+        // 4. Verificar cada produto
+        produtos.forEach(function (produto) {
+            const texto = produto.textContent
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+            if (texto.includes(termo)) {
+                produto.hidden = false;
+                encontrados++;
+            } else {
+                produto.hidden = true;
+            }
+        });
+
+        // 5. Mostrar o resultado da pesquisa
+        if (termo === "") {
+            mensagemBusca.textContent = "";
+        } else if (encontrados === 0) {
+            mensagemBusca.textContent =
+                "Nenhum produto encontrado.";
+        } else {
+            mensagemBusca.textContent =
+                encontrados + " produto(s) encontrado(s).";
+        }
+    });
+</script>
+<script>
+    // ========================================
+    // BELLA MASSA - ADICIONAR AO CARRINHO
+    // ========================================
+
+    const CART_KEY = "bellaMassaCart";
+
+    // Recupera os produtos salvos no navegador
+    function obterCarrinho() {
+        const carrinhoSalvo = localStorage.getItem(CART_KEY);
+
+        return carrinhoSalvo ? JSON.parse(carrinhoSalvo) : [];
+    }
+
+    // Salva os produtos no navegador
+    function salvarCarrinho(carrinho) {
+        localStorage.setItem(CART_KEY, JSON.stringify(carrinho));
+    }
+
+    // Converte o preço de R$ 39,90 para 39.90
+    function converterPreco(precoTexto) {
+        return Number(
+            precoTexto
+                .replace("R$", "")
+                .trim()
+                .replace(/\./g, "")
+                .replace(",", ".")
+        );
+    }
+
+    // Adiciona um produto ao carrinho
+    function adicionarProduto(produto) {
+        const carrinho = obterCarrinho();
+
+        // Verifica se o produto já existe
+        const produtoExistente = carrinho.find(
+            item => item.name === produto.name
+        );
+
+        if (produtoExistente) {
+            produtoExistente.quantity++;
+        } else {
+            carrinho.push({
+                ...produto,
+                quantity: 1
+            });
+        }
+
+        salvarCarrinho(carrinho);
+    }
+
+    // Encontra todos os botões Adicionar
+    const botoesAdicionar = document.querySelectorAll(
+        ".product-card .product-footer button"
+    );
+
+    // Configura o clique dos botões
+    botoesAdicionar.forEach(botao => {
+
+        botao.addEventListener("click", function () {
+
+            const card = botao.closest(".product-card");
+
+            const nome = card.querySelector("h3").textContent.trim();
+
+            const descricao = card.querySelector(
+                ".product-body p"
+            ).textContent.trim();
+
+            const precoTexto = card.querySelector(
+                ".product-footer strong"
+            ).textContent.trim();
+
+            const imagem = card.querySelector(
+                ".product-image img"
+            ).getAttribute("src");
+
+            // Monta o objeto do produto
+            const produto = {
+                name: nome,
+                description: descricao,
+                price: converterPreco(precoTexto),
+                image: imagem
+            };
+
+            // Salva no carrinho
+            adicionarProduto(produto);
+
+            // Mostra confirmação no botão
+            const textoOriginal = botao.textContent;
+
+            botao.textContent = "Adicionado!";
+            botao.disabled = true;
+
+            setTimeout(() => {
+                botao.textContent = textoOriginal;
+                botao.disabled = false;
+            }, 1000);
+
+        });
+
+    });
+</script>
 </body>
 </html>
